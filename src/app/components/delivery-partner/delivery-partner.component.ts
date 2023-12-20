@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-apply-seller',
-  templateUrl: './apply-seller.component.html',
-  styleUrls: ['./apply-seller.component.scss']
+  selector: 'app-delivery-partner',
+  templateUrl: './delivery-partner.component.html',
+  styleUrls: ['./delivery-partner.component.scss']
 })
-export class ApplySellerComponent implements OnInit {
+export class DeliveryPartnerComponent {
   // emailFormControl = new FormControl('', [Validators.required, Validators.email]);
   @ViewChild('fform') viewProductFormDirective: any;
 
@@ -17,20 +17,21 @@ export class ApplySellerComponent implements OnInit {
     this.createForm();
   }
 
-  ngOnInit() { }
-
   createForm(): void {
     this.sellerRegisterForm = this.lg.group({
       emailId: ['', [Validators.required, Validators.email]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       mobileNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      storeName: ['', [Validators.required]],
-      storeAddress: ['', [Validators.required]],
+      pin: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      district: ['', [Validators.required]],
     });
 
     this.sellerRegisterForm.valueChanges
       .subscribe(data => this.onSellerRegisterValueChanged(data));
+
   }
 
   onSellerRegisterValueChanged(data: any) {
@@ -54,12 +55,19 @@ export class ApplySellerComponent implements OnInit {
       this.formErrors.mobileNumber = this.validationMessages.mobileNumber.required;
     }
 
-    if (this.sellerRegisterForm.dirty && this.sellerRegisterForm.value.storeName != "") {
-      this.formErrors.storeName = this.validationMessages.storeName.required;
+    if (this.sellerRegisterForm.dirty && this.sellerRegisterForm.value.pin != "") {
+      this.formErrors.pin = this.validationMessages.pin.required;
     }
 
-    if (this.sellerRegisterForm.dirty && this.sellerRegisterForm.value.storeAddress != "") {
-      this.formErrors.storeAddress = this.validationMessages.storeAddress.required;
+    if (this.sellerRegisterForm.dirty && this.sellerRegisterForm.value.address != "") {
+      this.formErrors.address = this.validationMessages.address.required;
+    }
+
+    if (this.sellerRegisterForm.dirty && this.sellerRegisterForm.value.city != "") {
+      this.formErrors.city = this.validationMessages.city.required;
+    }
+    if (this.sellerRegisterForm.dirty && this.sellerRegisterForm.value.district != "") {
+      this.formErrors.district = this.validationMessages.district.required;
     }
   }
 
@@ -67,9 +75,11 @@ export class ApplySellerComponent implements OnInit {
     'firstName': 'First name is required.',
     'lastName': 'Last name is required.',
     'emailId': 'Email id is required',
-    'mobileNumber': 'Phone Number is required.',
-    'storeName': 'Store Name is required',
-    'storeAddress': 'Store Address is required'
+    'mobileNumber': 'Mobile Number is required.',
+    'pin': 'Pin is required',
+    'address': 'Address is required',
+    'city': 'City is required',
+    'district': 'District is required',
   };
 
   validationMessages: any = {
@@ -84,14 +94,20 @@ export class ApplySellerComponent implements OnInit {
       'required': 'Email id is required.'
     },
     'mobileNumber': {
-      'invalid': 'Phone Number is invalid.',
-      'required': 'Phone Number is required.'
+      'invalid': 'Mobile Number is invalid.',
+      'required': 'Mobile Number is required.'
     },
-    'storeName': {
-      'required': 'Store Name is required.'
+    'pin': {
+      'required': 'Pin is required.'
     },
-    'storeAddress': {
-      'required': 'Store Address is required.'
+    'address': {
+      'required': 'Address is required.'
+    },
+    'city': {
+      'required': 'City is required.'
+    },
+    'district': {
+      'required': 'District is required.'
     }
   };
 }
